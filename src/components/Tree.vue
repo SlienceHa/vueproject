@@ -9,7 +9,6 @@
             <rect width="15px" height="15px" fill="white" stroke="red"></rect>
         </svg>
         <svg :id="'svg_tree'+svgId" ref="svgTree" style="width:100%;height:100%">
-            
         </svg>
     </div>
 </template>

@@ -19,7 +19,7 @@ export default {
 <style scoped>
 .title{
     width:100%;
-    background: #3072ad;
+    background-color: gray;
     /* border:1px solid #ebebeb; */
     font-weight: bold;
     box-sizing: border-box;

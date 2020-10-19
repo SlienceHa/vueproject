@@ -1,6 +1,6 @@
 <template>
     <div class="mBox">
-        <svg :id="'svg_model'+indexx" ref="svgModelTree" :style="{width:'80%',height:'100%'}">
+        <svg :id="'svg_model'+indexx" ref="svgModelTree" :style="{width:'80%',height:'90%'}">
         </svg>
     </div>
 </template>

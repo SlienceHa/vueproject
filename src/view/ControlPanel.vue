@@ -22,33 +22,33 @@
                         <div class="parameterName">AgeGap:</div>
                         <el-slider v-model="checkValue.ageGap" range  :max="60" :min='0' class="sliderStyle"  :marks="{  0:'0',60:'60',label: this.$createElement('strong', '30%')}" @change="filtTrees()">
                         </el-slider>
-                       <span style="position:absolute;left:16.5%;top:28.5%;height:25px">{{checkValue.ageGap[0]}}~{{checkValue.ageGap[1]}}</span>
+                       <span style="position:absolute;left:16.5%;top:28.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.ageGap[0]}}~{{checkValue.ageGap[1]}}</span>
                     </div>
                     <div class="sliderBox">
                         <div class="parameterName">AverageAge:</div>
                        <el-slider v-model="checkValue.averageAge" range  :max="151" :min="0" class="sliderStyle" :marks="{  0:'0',151:'151',label: this.$createElement('strong', '30%')} " @change="filtTrees()"></el-slider>
-                        <span style="position:absolute;left:16.5%;top:31.7%;height:25px">{{checkValue.averageAge[0]}}~{{checkValue.averageAge[1]}}</span>
+                        <span style="position:absolute;left:16.5%;top:31.7%;height:25px;color:white;backgroundColor:gray;">{{checkValue.averageAge[0]}}~{{checkValue.averageAge[1]}}</span>
 
                     </div>
                     <div class="sliderBox">
                         <div class="parameterName">PositionNum:</div>
                         <el-slider v-model="checkValue.positionNum" range show-stops :max="20" :min="0" class="sliderStyle" :marks="{  0:'0',20:'20',label: this.$createElement('strong', '30%')}" @change="filtTrees()"></el-slider>
-                       <span style="position:absolute;left:16.5%;top:35%;height:25px">{{checkValue.positionNum[0]}}~{{checkValue.positionNum[1]}}</span>
+                       <span style="position:absolute;left:16.5%;top:35%;height:25px;color:white;backgroundColor:gray;">{{checkValue.positionNum[0]}}~{{checkValue.positionNum[1]}}</span>
                     </div>
                     <div class="sliderBox">
                         <div class="parameterName">TimeSpan:</div>
                        <el-slider v-model="checkValue.timeSpan" range  :max="300" :min="0" class="sliderStyle"  :marks="{  0:'0',300:'300',label: this.$createElement('strong', '30%')}" @change="filtTrees()"></el-slider>
-                        <span style="position:absolute;left:16.5%;top:38.2%;height:25px">{{checkValue.timeSpan[0]}}~{{checkValue.timeSpan[1]}}</span>
+                        <span style="position:absolute;left:16.5%;top:38.2%;height:25px;color:white;backgroundColor:gray;">{{checkValue.timeSpan[0]}}~{{checkValue.timeSpan[1]}}</span>
                     </div> 
                     <div class="sliderBox">
                         <div class="parameterName">VillageNum:</div>
                        <el-slider v-model="checkValue.villageNum" range show-stops :max="31" :min="0" class="sliderStyle" :marks="{  0:'0',31:'31',label: this.$createElement('strong', '30%')}" @change="filtTrees()"></el-slider>
-                       <span style="position:absolute;left:16.5%;top:41.5%;height:25px">{{checkValue.villageNum[0]}}~{{checkValue.villageNum[1]}}</span>
+                       <span style="position:absolute;left:16.5%;top:41.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.villageNum[0]}}~{{checkValue.villageNum[1]}}</span>
                     </div>
                      <div class="sliderBox">
                         <div class="parameterName">TimeIntersection:</div>
                        <el-slider v-model="checkValue.TimeIntersection" range :max="200" :min="0" class="sliderStyle" :marks="{  0:'0',200:'200',label: this.$createElement('strong', '30%')}"></el-slider>
-                       <span style="position:absolute;left:16.5%;top:45.5%;height:25px">{{checkValue.TimeIntersection[0]}}~{{checkValue.TimeIntersection[1]}}</span>
+                       <span style="position:absolute;left:16.5%;top:45.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.TimeIntersection[0]}}~{{checkValue.TimeIntersection[1]}}</span>
                     </div>
 
 
