@@ -87,7 +87,7 @@ export default {
         }
     },
     computed:{
-            ...mapGetters(["getLocation",'getChoosedTrees','getClusters','getCluster','getTree','getTrees','getSelectedModelTree']),
+            ...mapGetters(["getLocation",'getChoosedTrees','getClusters','getCluster','getTree','getTrees','getSelectedModelTree','getTree2']),
             getClustersX:function(){
                 return function(nodes){
                     let allX=0;
@@ -366,12 +366,11 @@ export default {
         getChoosedTrees(){
             d3.select('#svg_pro')
             .selectAll(".circle")
-            .style("opacity","1")
+            .style("opacity","0.5")
             for(var i in this.getChoosedTrees){
                 d3.select("#circle_"+this.getChoosedTrees[i].name)
-                .style("opacity","0.5")
+                .style("opacity","1.0")
             }
-
             // this.$refs.chooseCircle.setAttribute("r",0)
         },
 
@@ -381,6 +380,13 @@ export default {
             this.tree.push({"id":id,"x":this.locationDic[id].x,
                 "y":this.locationDic[id].y,"cluster":this.locationDic[id].cluster});
         },
+        getTree2(){
+            d3.select('#svg_pro')
+            .selectAll(".circle")
+            .style("fill",'#fff')
+
+             d3.select('#circle_' + this.getTree2.name).style("fill",'red');
+        }
 
     }
     

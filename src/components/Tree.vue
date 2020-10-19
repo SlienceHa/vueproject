@@ -1,11 +1,11 @@
 <template>
     <div class="TreeBox">
-        <span>village:</span>
-        <svg style="height:16px;margin:5px 0 0 0">      
-            <rect v-for="(value,index) in villageColor" :key="value" width="15px" height="15px" :x="15+(index-1)*17" :y="height-20" :fill="value"></rect>
+        <span style="color:white;backgroundColor:gray;">village:</span>
+        <svg style="height:18px;margin:5px 0 0 0">      
+            <rect v-for="(value,index) in villageColor" :key="value" width="15px" height="15px" :x="15+(index-1)*17" y=5 :fill="value"></rect>
         </svg>
-        <span>Position:</span>
-        <svg style="height:16px;margin:5px 0 0 0">      
+        <span style="color:white;backgroundColor:gray;">Position:</span>
+        <svg style="height:16px;margin:5px 0 0 0;">      
             <rect width="15px" height="15px" fill="white" stroke="red"></rect>
         </svg>
         <svg :id="'svg_tree'+svgId" ref="svgTree" style="width:100%;height:100%">
@@ -26,7 +26,7 @@ export default {
         return{
             Age:0,
             padding:{
-                top:50,
+                top:25,
                 left:20,
             },
             maxYear:0,
@@ -89,7 +89,7 @@ export default {
             var svg=d3.select("#svg_tree"+this.svgId);
             svg.selectAll("g").remove();
             var g=svg.append("g").attr("transform", `translate(${this.padding.left},${this.padding.top})`);
-            var xg=svg.append("g").attr("transform",`translate(${this.padding.left},${height+50})`);
+            var xg=svg.append("g").attr("transform",`translate(${this.padding.left},${height+20})`);
             xAxis(xg);
 
             // console.log(tree.links())
