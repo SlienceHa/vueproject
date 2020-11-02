@@ -3,6 +3,9 @@
         <select style="position:absolute;top:-23px;left:865px"  v-model="state">
             <option v-for="item in showState" :key="item" :value="item">{{item}}</option>
         </select>
+        <select style="position:absolute;top:-23px;left:145px"  v-model="NowGra">
+            <option v-for="item in changeGra" :key="item" :value="item">{{item}}</option>
+        </select>
         <button style="position:absolute;top:-23px;left:790px;width:72px;height:20px;" @click="getRepresentTree()">{{this.showTreeState==0?'ShowTree':'HideTree'}}</button>
         <div  v-for="(value,index) in this.PresentTree" :key="value.name" :style="{width:'150px',height:'100px',position:'absolute',left:value.x+'px',top:value.y+'px'}">
              <ModelTree :indexx="index+1000" :tree="value" />
@@ -82,6 +85,8 @@ export default {
             ],
             showState:['Origin','DBscan'],
             state:'Origin',
+            changeGra:['All','AverageAge','AgeGap'],
+            NowGra:['All'],
             PresentTree:[],
             showTreeState:0,
         }
@@ -167,7 +172,7 @@ export default {
         },
     methods:{
         ...mapActions(["fetchLocation","updateChoosedTrees","updateCluster","updateRepresentTree",
-        "updateDifferentyTrees","updateDifferentTypes","updateChooseTypeIndex","setTrees","fetchPig",'updateSelectedModelTree','fetchTree']),
+        "updateDifferentyTrees","updateDifferentTypes","updateChooseTypeIndex","setTrees","fetchPig",'updateSelectedModelTree','fetchTree','updateLocation']),
         initPath(){
             this.pathData="";
             this.pathData2='';
@@ -386,6 +391,9 @@ export default {
             .style("fill",'#fff')
 
              d3.select('#circle_' + this.getTree2.name).style("fill",'red');
+        },
+        NowGra:function(){
+            this.updateLocation(this.NowGra);
         }
 
     }

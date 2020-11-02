@@ -172,7 +172,7 @@ const actions={
 
   fetchLocation({ commit }){
     axios.get(
-      '../static/location2.json'
+      '../static/locationAll.json'
     )
     .then(response=>{
       commit("setLocation",response.data);
@@ -180,7 +180,7 @@ const actions={
   },
   updateLocation({commit},selected){
     axios.get(
-        '../static/locationNew.json'
+        '../static/location'+selected+'.json'
     )
     .then(response=>{
         commit('setLocation',response.data)
