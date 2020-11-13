@@ -19,29 +19,39 @@
                 <Title  :title="'AttributePanel'"></Title>
                   <div class="content" :style="{'height':'calc(100% - '+height+'px)'}" >
                     <div class="sliderBox">
-                        <div class="parameterName">AgeGap:</div>
+                        <div class="parameterName">
+                            <el-checkbox v-model="checkIf.ageGap" @change="checkifif()" style="marginLeft:-20px;">AgeGap:</el-checkbox>
+                        </div>
                         <el-slider v-model="checkValue.ageGap" range  :max="60" :min='0' class="sliderStyle"  :marks="{  0:'0',60:'60',label: this.$createElement('strong', '30%')}" @change="filtTrees()">
                         </el-slider>
                        <span style="position:absolute;left:16.5%;top:28.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.ageGap[0]}}~{{checkValue.ageGap[1]}}</span>
                     </div>
                     <div class="sliderBox">
-                        <div class="parameterName">AverageAge:</div>
+                        <div class="parameterName">
+                             <el-checkbox v-model="checkIf.averageAge" @change="checkifif()" style="marginLeft:-20px" >AverageAge:</el-checkbox>
+                        </div>
                        <el-slider v-model="checkValue.averageAge" range  :max="151" :min="0" class="sliderStyle" :marks="{  0:'0',151:'151',label: this.$createElement('strong', '30%')} " @change="filtTrees()"></el-slider>
                         <span style="position:absolute;left:16.5%;top:31.7%;height:25px;color:white;backgroundColor:gray;">{{checkValue.averageAge[0]}}~{{checkValue.averageAge[1]}}</span>
 
                     </div>
                     <div class="sliderBox">
-                        <div class="parameterName">PositionNum:</div>
+                        <div class="parameterName">
+                             <el-checkbox v-model="checkIf.positionNum" @change="checkifif()" style="marginLeft:-20px" >PositionNum:</el-checkbox>
+                        </div>
                         <el-slider v-model="checkValue.positionNum" range show-stops :max="20" :min="0" class="sliderStyle" :marks="{  0:'0',20:'20',label: this.$createElement('strong', '30%')}" @change="filtTrees()"></el-slider>
                        <span style="position:absolute;left:16.5%;top:35%;height:25px;color:white;backgroundColor:gray;">{{checkValue.positionNum[0]}}~{{checkValue.positionNum[1]}}</span>
                     </div>
                     <div class="sliderBox">
-                        <div class="parameterName">TimeSpan:</div>
+                        <div class="parameterName">
+                             <el-checkbox v-model="checkIf.timeSpan" @change="checkifif()" style="marginLeft:-20px">TimeSpan:</el-checkbox>
+                        </div>
                        <el-slider v-model="checkValue.timeSpan" range  :max="300" :min="0" class="sliderStyle"  :marks="{  0:'0',300:'300',label: this.$createElement('strong', '30%')}" @change="filtTrees()"></el-slider>
                         <span style="position:absolute;left:16.5%;top:38.2%;height:25px;color:white;backgroundColor:gray;">{{checkValue.timeSpan[0]}}~{{checkValue.timeSpan[1]}}</span>
                     </div> 
                     <div class="sliderBox">
-                        <div class="parameterName">VillageNum:</div>
+                        <div class="parameterName">
+                             <el-checkbox v-model="checkIf.villageNum" @change="checkifif()" style="marginLeft:-20px" >VillageNum:</el-checkbox>
+                        </div>
                        <el-slider v-model="checkValue.villageNum" range show-stops :max="31" :min="0" class="sliderStyle" :marks="{  0:'0',31:'31',label: this.$createElement('strong', '30%')}" @change="filtTrees()"></el-slider>
                        <span style="position:absolute;left:16.5%;top:41.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.villageNum[0]}}~{{checkValue.villageNum[1]}}</span>
                     </div>
@@ -150,12 +160,19 @@ export default {
                 'villageNum':[0,8],
                 'TimeIntersection':[50,100],
             },
+            checkIf:{
+                'ageGap':false,
+                'averageAge':false,
+                'positionNum':false,
+                'timeSpan':false,
+                'villageNum':false,
+            },
             origin:0,
       };
   },
   computed:{...mapGetters(["getTreeId","getTrees","getTree","getPersonCount",'getFiltCountTrees','getChoosedTrees','getFiltTrees'])},
   methods:{
-        ...mapActions(["fetchTree","updateFilters","updateChoosedTrees","updateTriFlag","updateFiltCountTrees",'updateLocation','fetchSelectedTree','fetchSelectedTree1','updateFiltTrees']),
+        ...mapActions(["fetchTree","updateFilters","updateChoosedTrees","updateTriFlag","updateFiltCountTrees",'updateLocation','fetchSelectedTree','fetchSelectedTree1','updateFiltTrees','updateLocation']),
         filt(){
             // this.updateFilters(Number(this.$refs.filterGeneration.value),Number(this.$refs.filterCount.value));
             var choosedTrees=[]
@@ -421,6 +438,20 @@ export default {
                 console.log(selectedTree1);
             }
 
+        },
+        checkifif(){
+            let fileName="";
+            for(let i in this.checkIf){
+                if(this.checkIf[i]==true){
+                    fileName+=i;
+                }
+            }
+            if(fileName==""){
+                fileName="All"
+            }
+            console.log(fileName);
+            this.updateLocation(fileName);
+
         }
     },
     watch:{
@@ -458,7 +489,7 @@ export default {
             // console.log(positionNum);
             // console.log(timeSpan);
             // console.log(villageNum);
-        }
+        },
     }
 }
 </script>

@@ -14,12 +14,15 @@ export default {
         }
     },
     computed:{
-        ...mapGetters(['getSelectedTree1','getChangeState'])
+        ...mapGetters(['getSelectedTree1','getChangeState','getTree'])
     },
     methods:{
         render(){
             this.trees=require("../../static/att5.json");
             const pollen=[];
+            //加入主树并标注颜色
+            let x = this.trees[this.getTree.name];
+            pollen.push([x.ageGap,x.averageAge,x.positionNum,x.timeSpan,x.villageNum,2])
             for(let i = 0;i<this.getSelectedTree1.length;i++){
                 let x = this.trees[this.getSelectedTree1[i].name];
                 if(x.ageGap<0){
@@ -45,7 +48,15 @@ export default {
                     type: 'parallel',
                     lineStyle: {
                         width: 1,
-                        color: function(d){ return pollen[d.dataIndex][5]==0?'rgba(106,90,205,0.2)':'red'}
+                        color: function(d){ 
+                                    if(pollen[d.dataIndex][5]==1){
+                                        return 'red'
+                                    }
+                                    else if(pollen[d.dataIndex][5]==2){
+                                        return 'orange'
+                                    }
+                                    return 'rgba(106,90,205,0.2)';
+                                },
                     },
                     data: pollen
                 }

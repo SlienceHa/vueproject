@@ -86,7 +86,7 @@ export default {
             showState:['Origin','DBscan'],
             state:'Origin',
             changeGra:['All','AverageAge','AgeGap'],
-            NowGra:['All'],
+            NowGra:'All',
             PresentTree:[],
             showTreeState:0,
         }
@@ -172,7 +172,7 @@ export default {
         },
     methods:{
         ...mapActions(["fetchLocation","updateChoosedTrees","updateCluster","updateRepresentTree",
-        "updateDifferentyTrees","updateDifferentTypes","updateChooseTypeIndex","setTrees","fetchPig",'updateSelectedModelTree','fetchTree','updateLocation']),
+        "updateDifferentyTrees","updateDifferentTypes","updateChooseTypeIndex","setTrees","fetchPig",'updateSelectedModelTree','fetchTree','updateLocation','fetchSelectedTree1','updateTree2']),
         initPath(){
             this.pathData="";
             this.pathData2='';
@@ -294,30 +294,57 @@ export default {
             let e = event || window.event;
             let x = e.offsetX;
             let y = e.offsetY;
-            // const test = Vue.extend({
-            //     template:'<div id="tree" ref="tree" style="position:absolute;backgroundColor:red;">{{text}}</div>',
-            //     data:function(){
-            //         return{
-            //             text:'eeeeee',
-            //         }
-            //     }
-            // });
-            // new test().$mount("#tree"); 
-            // if(value!=undefined){
-            //     this.getTrees.forEach(element => {
-            //         if(element.name == value.id){
-            //             this.updateSelectedModelTree(element);
-            //             console.log(this.getSelectedModelTree);
-            //             this.$refs.tree.style.left=x+'px';
-            //             this.$refs.tree.style.top=y+'px';
-            //             this.$refs.tree.style.display="inline";
-            //         }
-            //     });
-            // } 
-            this.fetchTree(value.id); 
-            console.log(value.id);
-            // console.log("x:"+x);
-            // console.log("y"+y);
+            //找到主树的x和y坐标
+            let distance=[];
+            let mainX=0;
+            let mainY=0;
+            this.getLocation.forEach(ele=>{
+                if(value.id==ele.id){
+                    mainX=ele.x;
+                    mainY=ele.y
+                }
+            });
+            //计算其他树到主树的距离
+            this.getLocation.forEach(ele=>{
+                if(ele.id!=value.id){
+                    let dis = Math.sqrt(Math.pow(parseFloat(ele.x)-parseFloat(mainX),2)+Math.pow(parseFloat(ele.y)-parseFloat(mainY),2));
+                    distance.push({"id":ele.id,"dis":dis});
+                }
+            });
+            const com = (arg)=>{
+                return function(a,b){
+                    return a[arg] - b[arg];
+                }
+            };
+            distance= distance.sort(com('dis'));
+            distance= distance.slice(0,50); 
+            this.fetchTree(value.id);
+            console.log(distance);
+
+            //将前五十个树更新；
+            let selectedTree1=[];  
+            distance.forEach(ele=>{
+                this.getTrees.forEach(eles=>{
+                    if(ele.id==eles.name){
+                        let temp =eles;
+                        temp.state=0
+                        selectedTree1.push(temp);
+                    }      
+                })
+            });
+            console.log(selectedTree1);
+            this.fetchSelectedTree1(selectedTree1);
+            this.updateTree2(distance[0].id);
+
+            d3.select('#svg_pro')
+            .selectAll(".circle")
+            .style("opacity","0.5")
+            .style("stroke","black")
+            for(var i in selectedTree1){
+                d3.select("#circle_"+selectedTree1[i].name)
+                .style("stroke","red")
+            }
+            
         },
         getRepresentTree(){
             let treeName=['137692','137582','39756','110589','85033','103274','20083','129946','127206','48337','3256','80330']
@@ -336,7 +363,7 @@ export default {
             this.PresentTree=this.showTreeState==0?final:[];
             this.showTreeState=this.showTreeState==0?1:0;
             console.log(this.PresentTree);
-
+            
         }
     },
 
@@ -386,11 +413,11 @@ export default {
                 "y":this.locationDic[id].y,"cluster":this.locationDic[id].cluster});
         },
         getTree2(){
-            d3.select('#svg_pro')
-            .selectAll(".circle")
-            .style("fill",'#fff')
+            // d3.select('#svg_pro')
+            // .selectAll(".circle")
+            // .style("fill",'#fff')
 
-             d3.select('#circle_' + this.getTree2.name).style("fill",'red');
+            //  d3.select('#circle_' + this.getTree2.name).style("fill",'red');
         },
         NowGra:function(){
             this.updateLocation(this.NowGra);
