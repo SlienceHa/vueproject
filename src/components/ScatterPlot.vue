@@ -5,7 +5,7 @@
         </select>
     <svg style="width:100%;height:95%" ref="scatterSvg" id="scatterSvg">
         <g>
-            <circle v-for="value in trees"  :key="value.name" :r="getSize(value.Number)" :cx="getX(value[textX])"
+            <circle v-for="value in trees"  :key="value.name" :r="3" :cx="getX(value[textX])"
                 :cy="getY(value[textY])" :style="{stroke:'#ccc',strokeWidth:0.5,fillOpacity:0.7}"
                 @click="circleClick(value.name)"
              >
@@ -26,9 +26,9 @@ export default {
     name:'ScatterPlot',
     data(){
         return {
-            attr:['Number','ageGap','averageAge','positionNum','timeSpan','villageNum'],
-            attrY:['Number','ageGap','averageAge','positionNum','timeSpan','villageNum'],
-            attrX:['Number','ageGap','averageAge','positionNum','timeSpan','villageNum'],
+            attr:['Number','ageGap','averageAge','positionNum','timeSpan','villageNum','depth'],
+            attrY:['Number','ageGap','averageAge','positionNum','timeSpan','villageNum','depth'],
+            attrX:['Number','ageGap','averageAge','positionNum','timeSpan','villageNum','depth'],
             padding:{
                 top:10,
                 left:30,

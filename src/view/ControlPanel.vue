@@ -16,58 +16,57 @@
         </div>
          <div class="Info">
             <div class="boxContent">
-                <Title  :title="'AttributePanel'"></Title>
+                <Title  :title="'AttributePanel'">
+                  </Title>
                   <div class="content" :style="{'height':'calc(100% - '+height+'px)'}" >
                     <div class="sliderBox">
                         <div class="parameterName">
-                            <el-checkbox v-model="checkIf.ageGap" @change="checkifif()" style="marginLeft:-20px;">AgeGap:</el-checkbox>
+                            <el-checkbox v-model="checkIf.ageGap" style="marginLeft:-20px;">AgeGap:</el-checkbox>
                         </div>
-                        <el-slider v-model="checkValue.ageGap" range  :max="60" :min='0' class="sliderStyle"  :marks="{  0:'0',60:'60',label: this.$createElement('strong', '30%')}" @change="filtTrees()">
+                        <el-slider v-model="checkValue.ageGap"   :max="60" :min='0' class="sliderStyle"  :marks="{  0:'0',60:'60',label: this.$createElement('strong', '30%')}">
                         </el-slider>
-                       <span style="position:absolute;left:16.5%;top:28.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.ageGap[0]}}~{{checkValue.ageGap[1]}}</span>
+                       <span style="position:absolute;left:16.5%;top:28.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.ageGap}}</span>
                     </div>
                     <div class="sliderBox">
                         <div class="parameterName">
-                             <el-checkbox v-model="checkIf.averageAge" @change="checkifif()" style="marginLeft:-20px" >AverageAge:</el-checkbox>
+                             <el-checkbox v-model="checkIf.averageAge"  style="marginLeft:-20px" >AverageAge:</el-checkbox>
                         </div>
-                       <el-slider v-model="checkValue.averageAge" range  :max="151" :min="0" class="sliderStyle" :marks="{  0:'0',151:'151',label: this.$createElement('strong', '30%')} " @change="filtTrees()"></el-slider>
-                        <span style="position:absolute;left:16.5%;top:31.7%;height:25px;color:white;backgroundColor:gray;">{{checkValue.averageAge[0]}}~{{checkValue.averageAge[1]}}</span>
+                       <el-slider v-model="checkValue.averageAge"  :max="151" :min="0" class="sliderStyle" :marks="{  0:'0',151:'151',label: this.$createElement('strong', '30%')} "></el-slider>
+                        <span style="position:absolute;left:16.5%;top:31.7%;height:25px;color:white;backgroundColor:gray;">{{checkValue.averageAge}}</span>
 
                     </div>
                     <div class="sliderBox">
                         <div class="parameterName">
-                             <el-checkbox v-model="checkIf.positionNum" @change="checkifif()" style="marginLeft:-20px" >PositionNum:</el-checkbox>
+                             <el-checkbox v-model="checkIf.positionNum"  style="marginLeft:-20px" >PositionNum:</el-checkbox>
                         </div>
-                        <el-slider v-model="checkValue.positionNum" range show-stops :max="20" :min="0" class="sliderStyle" :marks="{  0:'0',20:'20',label: this.$createElement('strong', '30%')}" @change="filtTrees()"></el-slider>
-                       <span style="position:absolute;left:16.5%;top:35%;height:25px;color:white;backgroundColor:gray;">{{checkValue.positionNum[0]}}~{{checkValue.positionNum[1]}}</span>
+                        <el-slider v-model="checkValue.positionNum" show-stops :max="20" :min="0" class="sliderStyle" :marks="{  0:'0',20:'20',label: this.$createElement('strong', '30%')}" ></el-slider>
+                       <span style="position:absolute;left:16.5%;top:35%;height:25px;color:white;backgroundColor:gray;">{{checkValue.positionNum}}</span>
                     </div>
                     <div class="sliderBox">
                         <div class="parameterName">
-                             <el-checkbox v-model="checkIf.timeSpan" @change="checkifif()" style="marginLeft:-20px">TimeSpan:</el-checkbox>
+                             <el-checkbox v-model="checkIf.timeSpan"  style="marginLeft:-20px">TimeSpan:</el-checkbox>
                         </div>
-                       <el-slider v-model="checkValue.timeSpan" range  :max="300" :min="0" class="sliderStyle"  :marks="{  0:'0',300:'300',label: this.$createElement('strong', '30%')}" @change="filtTrees()"></el-slider>
-                        <span style="position:absolute;left:16.5%;top:38.2%;height:25px;color:white;backgroundColor:gray;">{{checkValue.timeSpan[0]}}~{{checkValue.timeSpan[1]}}</span>
+                       <el-slider v-model="checkValue.timeSpan"   :max="300" :min="0" class="sliderStyle"  :marks="{  0:'0',300:'300',label: this.$createElement('strong', '30%')}" ></el-slider>
+                        <span style="position:absolute;left:16.5%;top:38.2%;height:25px;color:white;backgroundColor:gray;">{{checkValue.timeSpan}}</span>
                     </div> 
                     <div class="sliderBox">
                         <div class="parameterName">
-                             <el-checkbox v-model="checkIf.villageNum" @change="checkifif()" style="marginLeft:-20px" >VillageNum:</el-checkbox>
+                             <el-checkbox v-model="checkIf.villageNum" style="marginLeft:-20px" >VillageNum:</el-checkbox>
                         </div>
-                       <el-slider v-model="checkValue.villageNum" range show-stops :max="31" :min="0" class="sliderStyle" :marks="{  0:'0',31:'31',label: this.$createElement('strong', '30%')}" @change="filtTrees()"></el-slider>
-                       <span style="position:absolute;left:16.5%;top:41.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.villageNum[0]}}~{{checkValue.villageNum[1]}}</span>
+                       <el-slider v-model="checkValue.villageNum"  show-stops :max="31" :min="0" class="sliderStyle" :marks="{  0:'0',31:'31',label: this.$createElement('strong', '30%')}" ></el-slider>
+                       <span style="position:absolute;left:16.5%;top:41.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.villageNum}}</span>
                     </div>
                      <div class="sliderBox">
                         <div class="parameterName">TimeIntersection:</div>
                        <el-slider v-model="checkValue.TimeIntersection" range :max="200" :min="0" class="sliderStyle" :marks="{  0:'0',200:'200',label: this.$createElement('strong', '30%')}"></el-slider>
                        <span style="position:absolute;left:16.5%;top:45.5%;height:25px;color:white;backgroundColor:gray;">{{checkValue.TimeIntersection[0]}}~{{checkValue.TimeIntersection[1]}}</span>
                     </div>
-
-
                 </div>
             </div>
         </div>
         <div class="modelBox">
             <div class="boxContent">
-                <Title  :title="'DrawPanel'"/>
+                <Title  :title="'StructurePanel'"/>
                 <div class="content" :style="{'height':'calc(100% - '+height+'px)'}" >
                     <div class="btnBox" :style="{'height':'calc(15% - 10px)'}">
                         <input type="button" value="" class="btnGroup Node" title="draw node" >
@@ -91,7 +90,7 @@
         </div>
         <div class="Info" style="height:6%">
             <div class="boxContent">
-                <Title  :title="'AttributePanel'"></Title>
+                <Title  :title="'ConfirmPanel'"></Title>
                   <div class="content" :style="{'height':'calc(100% - '+height+'px)'}" >
                      <div class="sliderBox" style="padding:0px">
                         <div class="parameterName">confirm:</div>
@@ -153,11 +152,11 @@ export default {
             isIndeterminate: true,
             checkList: ['Structure'],
             checkValue:{
-                'ageGap':[10,40],
-                'averageAge':[20,60],
-                'positionNum':[0,2],
-                'timeSpan':[50,100],
-                'villageNum':[0,8],
+                'ageGap':10,
+                'averageAge':20,
+                'positionNum':30,
+                'timeSpan':40,
+                'villageNum':0,
                 'TimeIntersection':[50,100],
             },
             checkIf:{
@@ -167,12 +166,13 @@ export default {
                 'timeSpan':false,
                 'villageNum':false,
             },
+            structure:true,
             origin:0,
       };
   },
   computed:{...mapGetters(["getTreeId","getTrees","getTree","getPersonCount",'getFiltCountTrees','getChoosedTrees','getFiltTrees'])},
   methods:{
-        ...mapActions(["fetchTree","updateFilters","updateChoosedTrees","updateTriFlag","updateFiltCountTrees",'updateLocation','fetchSelectedTree','fetchSelectedTree1','updateFiltTrees','updateLocation']),
+        ...mapActions(["fetchTree","updateFilters","updateChoosedTrees","updateTriFlag","updateFiltCountTrees",'updateLocation','fetchSelectedTree','fetchSelectedTree1','updateFiltTrees','updateLocation','updateNowGra']),
         filt(){
             // this.updateFilters(Number(this.$refs.filterGeneration.value),Number(this.$refs.filterCount.value));
             var choosedTrees=[]
@@ -216,27 +216,28 @@ export default {
             this.fetchSelectedTree1(sel);
             console.log("211111");
         },
-        filtTrees(){
-            //设置与保存初始所有树
-            var trees=this.origin;
-            var finalTrees=[];
-            if(this.origin==0){
-                this.origin=this.getFiltTrees;
-                trees=this.origin;
-            }
-            trees.forEach((ele)=>{
-                if(ele.ageGap>=this.checkValue.ageGap[0] && ele.ageGap<=this.checkValue.ageGap[1] &&
-                    ele.averageAge>=this.checkValue.averageAge[0] && ele.averageAge<=this.checkValue.averageAge[1] &&
-                    ele.positionNum>=this.checkValue.positionNum[0] && ele.positionNum<=this.checkValue.positionNum[1] &&
-                    ele.timeSpan>=this.checkValue.timeSpan[0] && ele.timeSpan<=this.checkValue.timeSpan[1] &&
-                    ele.villageNum>=this.checkValue.villageNum[0] && ele.villageNum<=this.checkValue.villageNum[1]
-                )
-                finalTrees.push(ele);
-            });
-            console.log(finalTrees);
-            this.updateFiltTrees(finalTrees);
-            console.log(this.getFiltTrees);
-        },
+        // filtTrees(){        //废除该函数
+        //     //设置与保存初始所有树
+        //     var trees=this.origin;
+        //     var finalTrees=[];
+        //     if(this.origin==0){
+        //         this.origin=this.getFiltTrees;
+        //         trees=this.origin;
+        //     }
+        //     let treess = this.getTrees;
+        //     trees.forEach((ele)=>{
+        //         if(ele.ageGap>=this.checkValue.ageGap[0] && ele.ageGap<=this.checkValue.ageGap[1] &&
+        //             ele.averageAge>=this.checkValue.averageAge[0] && ele.averageAge<=this.checkValue.averageAge[1] &&
+        //             ele.positionNum>=this.checkValue.positionNum[0] && ele.positionNum<=this.checkValue.positionNum[1] &&
+        //             ele.timeSpan>=this.checkValue.timeSpan[0] && ele.timeSpan<=this.checkValue.timeSpan[1] &&
+        //             ele.villageNum>=this.checkValue.villageNum[0] && ele.villageNum<=this.checkValue.villageNum[1]
+        //         )
+        //         finalTrees.push(ele);
+        //     });
+        //     console.log(finalTrees);
+        //     this.updateFiltTrees(finalTrees);
+        //     console.log(this.getFiltTrees);
+        // },
         filtCount(){
             this.updateFiltCountTrees(this.personCount);
         },
@@ -315,144 +316,55 @@ export default {
             this.checkAll = checkedCount === this.cities.length;
             this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
         },
-        selectedConfirm(){
+        async selectedConfirm(){
+            //属性规定
+            // const reTree = {name:'0',...this.checkValue};
+            const reTree = [];
+            var params = []
+            for (var i in this.checkIf){
+                if(this.checkIf[i]===true){
+                    reTree.push([i,this.checkValue[i]]);
+                }
+            }
             //分3种情况分别做处理
             if(this.checkList[0]=='Structure' && this.checkList.length==1){
-                console.log("Structure")
-                //待选树规定（暂且默认为前50棵拓扑结构相似的树）
-                var selectedTree = [];
-                var selectedTree1 = [];
-                const treeInfo=require("../../static/att5.json");
-                this.getChoosedTrees.forEach(element => {
-                    treeInfo[element.name].name = element.name;
-                    selectedTree.push(treeInfo[element.name])
-                    this.getTrees.forEach(ele=>{
-                        if(ele.name==element.name)
-                        {   
-                            let temp =ele;
-                            temp.state=0
-                            selectedTree1.push(temp);
-                        }
-                    })
-                });
-                console.log(selectedTree1);
-                this.fetchSelectedTree(selectedTree);
-                this.fetchSelectedTree1(selectedTree1);
-            }else if(this.checkList[0]=='Attribute'){
+                console.log("Structure");
+             
+            }else if(this.checkList[0]=='Attribute' && this.checkList.length==1){
                 console.log("Attribute");
-                //只考虑属性，则初始待选树为所有树，需通过属性区间来筛选出待选树
-                const treeInfo=require("../../static/att5.json");
-                let selectedTree=[];
-                let selectedTree1=[];
-                console.log(this.checkValue);
-                //再考虑时间交集，
-                const s1=treeInfo[this.getTree.name].Start;
-                const e1=treeInfo[this.getTree.name].end;
-                let num=0;
-                for(let j in treeInfo){
-                    let i = treeInfo[j];
-                    //时间交集
-                    let flag=false;
-                    let s2 = i.Start;
-                    let e2 = i.end;
-                    let gap=Math.min(e1,e2)-Math.max(s1,s2);
-                    if(this.checkValue.TimeIntersection[0]<=gap &&gap<=this.checkValue.TimeIntersection[1]){
-                        flag=true
-                    }
-                    if(i.ageGap<0)
-                        i.ageGap=0;
-                    if(parseInt(i.ageGap)>=this.checkValue.ageGap[0] && parseInt(i.ageGap)<=this.checkValue.ageGap[1]
-                       && parseInt(i.averageAge)>=this.checkValue.averageAge[0] && parseInt(i.averageAge)<=this.checkValue.averageAge[1]
-                       && parseInt(i.positionNum)>=this.checkValue.positionNum[0] && parseInt(i.positionNum)<=this.checkValue.positionNum[1]
-                       && parseInt(i.timeSpan)>=this.checkValue.timeSpan[0] && parseInt(i.timeSpan)<=this.checkValue.timeSpan[1]
-                       && parseInt(i.villageNum)>=this.checkValue.villageNum[0] && parseInt(i.villageNum)<=this.checkValue.villageNum[1]
-                       &&flag
-                    ){
-                        i.name=j
-                        num+=1;
-                        selectedTree.push(i)
-                        if(num>=50)
-                        {
-                            break;
-                        }
-                    }
-                }
-                selectedTree.forEach(ele=>{
-                    this.getTrees.forEach(eles=>{
-                        if(ele.name==eles.name)
-                        {   
-                            let temp =eles;
-                            temp.state=0
-                            selectedTree1.push(eles);
-                        }
-                    })
-                })
-                this.fetchSelectedTree(selectedTree);
-                this.fetchSelectedTree1(selectedTree1);
-                console.log(this.fetchSelectedTree1);
-            }else{
+                // const res = await this.$axios.post('http://localhost:5000/api/attr',{
+                //     'data':reTree,
+                // });
+                this.updateLocation('New');  
+                this.updateNowGra("New");
+               
+            }else if(this.checkList.length==0){
+                this.$message({
+                    message: '您必须至少选择一种方式',
+                    type: 'warning'
+                });
+
+            }
+            else{
                 console.log("Structure And Attribute");
                 const treeInfo=require("../../static/att5.json");
-                let selectedTree=[];
-                let selectedTree1=[];
-                //再考虑时间交集，
-                const s1=treeInfo[this.getTree.name].Start;
-                const e1=treeInfo[this.getTree.name].end;
-                for(let j=0;j<this.getChoosedTrees.length;j++)
-                {
-                    let i = treeInfo[this.getChoosedTrees[j].name];
-                     //时间交集
-                    let flag=false;
-                    let s2 = i.Start;
-                    let e2 = i.end;
-                    let gap=Math.min(e1,e2)-Math.max(s1,s2);
-                    if(this.checkValue.TimeIntersection[0]<=gap &&gap<=this.checkValue.TimeIntersection[1]){
-                        flag=true
-                    }
-                     if(i.ageGap<0)
-                        i.ageGap=0;
-                    if(parseInt(i.ageGap)>=this.checkValue.ageGap[0] && parseInt(i.ageGap)<=this.checkValue.ageGap[1]
-                       && parseInt(i.averageAge)>=this.checkValue.averageAge[0] && parseInt(i.averageAge)<=this.checkValue.averageAge[1]
-                       && parseInt(i.positionNum)>=this.checkValue.positionNum[0] && parseInt(i.positionNum)<=this.checkValue.positionNum[1]
-                       && parseInt(i.timeSpan)>=this.checkValue.timeSpan[0] && parseInt(i.timeSpan)<=this.checkValue.timeSpan[1]
-                       && parseInt(i.villageNum)>=this.checkValue.villageNum[0] && parseInt(i.villageNum)<=this.checkValue.villageNum[1]
-                       &&flag
-                    ){
-                        i.name=this.getChoosedTrees[j].name
-                        selectedTree.push(i)
-                    }
-                }
-                console.log(selectedTree);
-                selectedTree.forEach(ele=>{
-                    this.getTrees.forEach(eles=>{
-                        if(ele.name==eles.name)
-                        {   
-                            let temp =eles;
-                            temp.state=0
-                            selectedTree1.push(eles);
-                        }
-                    })
-                })
-                this.fetchSelectedTree(selectedTree);
-                this.fetchSelectedTree1(selectedTree1);
-                console.log(selectedTree1);
-            }
+            }          
 
         },
-        checkifif(){
-            let fileName="";
-            for(let i in this.checkIf){
-                if(this.checkIf[i]==true){
-                    fileName+=i;
-                }
-            }
-            if(fileName==""){
-                fileName="All"
-            }
-            console.log(fileName);
-            this.updateLocation(fileName);
+        // checkifif(){ //函数废除
+        //     let fileName= this.structure==true?"location":"ATTR" ;
+        //     for(let i in this.checkIf){
+        //         if(this.checkIf[i]==true){
+        //             fileName+=i;
+        //         }
+        //     }
+        //     if(fileName=="location"){
+        //         fileName="All"
+        //     }
+        //     console.log(fileName);
+        //     this.updateLocation(fileName);
 
-        }
+        // }
     },
     watch:{
         getTree:function(){
@@ -461,11 +373,6 @@ export default {
                 this.searchClick();
                 this.isFirst=false;
             };
-            const treeInfo=require("../../static/att5.json");
-            for(let index in treeInfo[this.getTree.name]){
-                let t = treeInfo[this.getTree.name]
-                this.checkValue[index]=[t[index],t[index]];
-            }
             // var agegap=0;
             // var averageAge=0;
             // var positionNum=0;

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import { set } from 'shelljs';
 
 Vue.use(Vuex)
 const state={
@@ -29,6 +30,8 @@ const state={
     selectedModelTree: [{name:100000,children:[{name:1,children:[{name:2}]}]}],
     filtTrees:[],
     changeState:0,
+    historyTree:[],
+    nowGra:'Old',
 };
 const getters={
   getTrees:state=>state.trees,
@@ -56,6 +59,8 @@ const getters={
   getSelectedModelTree:state=>state.selectedModelTree,
   getFiltTrees:state=>state.filtTrees,
   getChangeState:state=>state.changeState,
+  getHistoryTree:state=>state.historyTree,
+  getNowGra:state=>state.nowGra,
 };
 const mutations={
   setTrees:(state,trees)=>(state.trees=trees),
@@ -80,20 +85,46 @@ const mutations={
   setSelectedTree1:(state,selectedTree1)=>(state.selectedTree1=selectedTree1),
   setSelectedModelTree:(state,selectedModelTree)=>(state.selectedModelTree=selectedModelTree),
   setFiltTrees:(state,filtTrees)=>(state.filtTrees=filtTrees),
-  setChangeState:(state,changeState)=>(state.changeState=changeState)
+  setChangeState:(state,changeState)=>(state.changeState=changeState),
+  setHistoryTree:(state,historyTree)=>(state.historyTree=historyTree),
+  setNowGra:(state,nowGra)=>(state.nowGra = nowGra),
 };
 const actions={
+    updateNowGra({commit},data){
+        commit('setNowGra',data);
+    },
     fetchFiltTrees({commit}){
         axios.get("../static/att5.json").then(response=>{
             let treees=[];
-            for(let i in response.data){
-                let temp=response.data[i];
-                temp.name=i;
-                treees.push(temp);
-            }
-            commit("setFiltTrees",treees);
-            console.log(treees);
+            let total = [];
+            axios.get('../static/trees4.json').then(res =>{
+                total = res.data;
+                console.log(total);
+                for(let i in response.data){
+                    let temp=response.data[i];
+                    temp.name=i;
+                    for(let j = 0;j<total.length;j++){
+                        if(i==total[j].name){
+                            temp.depth = total[j].deepth;
+                        }   
+                    }
+                    if(temp.ageGap>60)
+                        temp.ageGap=60;
+                    if(temp.averageAge>80){
+                        temp.averageAge=80
+                    }
+                    treees.push(temp);
+                }
+                commit("setFiltTrees",treees);
+                console.log(treees);
+            })
+            
         })
+    },
+    updateHistroyTree({commit},data){
+        let o = state.historyTree;
+        o.unshift(data);
+        commit('setHistoryTree',o);
     },
     updateChangeState({commit},data){
         commit("setChangeState",data)
@@ -180,7 +211,7 @@ const actions={
   },
   updateLocation({commit},selected){
     axios.get(
-        '../static/attr/location'+selected+'.json'
+        '../static/attr/'+selected+'.json'
     )
     .then(response=>{
         commit('setLocation',response.data)
@@ -277,7 +308,7 @@ const actions={
       }
     }
     commit("setFiltCountTrees",trees);
-  },
+  },                    
   
 };
 

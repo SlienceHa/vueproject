@@ -1,11 +1,33 @@
 <template>
     <div class="projectionBox" >
-        <select style="position:absolute;top:-23px;left:865px"  v-model="state">
+    <select style="position:absolute;top:-23px;left:865px"  v-model="state">
             <option v-for="item in showState" :key="item" :value="item">{{item}}</option>
         </select>
-        <select style="position:absolute;top:-23px;left:145px"  v-model="NowGra">
+        <select style="position:absolute;top:-23px;left:145px"  v-model="nowGra">
             <option v-for="item in changeGra" :key="item" :value="item">{{item}}</option>
-        </select>
+    </select>
+        <div ref="viewBox" class="viewBox" id="viewBox" >
+            <div class="button" @click="changeVieBox">{{viewBox_model}}</div>
+            <div class="content" ref="viewBoxContent">
+                <div style="width:100%;height:10%;backgroundColor:rgb(128,128,128);textAlign:center;color:white;lineHeight:31px">
+                    <h4>Structure</h4>
+                </div>
+                <div style="width:100%;height:20%">
+                    <el-checkbox v-model="checkIf.structure" @change="checkif()" style="margin: 20px 0 0 10px">Structure</el-checkbox>
+                </div>
+                <div style="width:100%;height:10%;backgroundColor:rgb(128,128,128);textAlign:center;color:white;lineHeight:31px">
+                    <h4>Attribute</h4>
+                </div>
+                <div style="width:100%;height:60%">
+                    <el-checkbox v-model="checkIf.ageGap" @change="checkif()" style="margin: 10px 0 0 10px">AgeGap</el-checkbox>
+                    <el-checkbox v-model="checkIf.averageAge" @change="checkif()" style="margin: 10px 0 0 10px" >AverageAge</el-checkbox>
+                    <el-checkbox v-model="checkIf.positionNum" @change="checkif()" style="margin: 10px 0 0 10px" >PositionNum</el-checkbox>
+                    <el-checkbox v-model="checkIf.timeSpan" @change="checkif()" style="margin: 10px 0 0 10px">TimeSpan</el-checkbox>
+                    <el-checkbox v-model="checkIf.villageNum" @change="checkif()" style="margin: 10px 0 0 10px">VillageNum</el-checkbox>
+                </div>    
+            </div>
+        </div>
+       
         <button style="position:absolute;top:-23px;left:790px;width:72px;height:20px;" @click="getRepresentTree()">{{this.showTreeState==0?'ShowTree':'HideTree'}}</button>
         <div  v-for="(value,index) in this.PresentTree" :key="value.name" :style="{width:'150px',height:'100px',position:'absolute',left:value.x+'px',top:value.y+'px'}">
              <ModelTree :indexx="index+1000" :tree="value" />
@@ -13,8 +35,8 @@
        <!-- <pig v-for="value in 12" :key="value" :tree=getPig(value-1)  :trees="getTrees" :padding="{top:30,left:20,}" :loc=getLoc(value)></pig> -->
         <svg id="svg_pro" ref="svgPro" v-on:mousedown="startDraw"  @mousewheel="zooming()">
             <g>
-                <circle v-for="(value,index) in location" :key="index" :cx="value.x+'px'" :cy="value.y+'px'" :r="radius_ori" :id="'circle_'+value.id" class="circle"
-                :style="{fillOpacity:1,stroke:'#000',strokeWidth:.5,fill: getFill(value.cluster)}" @click="displayTree(value)">
+                <circle v-for="(value,index) in location" :key="index" :cx="value.x+'px'" :cy="value.y+'px'" :r="radius_ori" :id="'circle_'+value.id" class="circle" 
+                :style="{fillOpacity:1,stroke:'gray',strokeWidth:.5,fill: getFill(value.cluster)}" @click="displayTree(value)">
                 </circle>
             </g>
             <!-- <g>
@@ -85,14 +107,23 @@ export default {
             ],
             showState:['Origin','DBscan'],
             state:'Origin',
-            changeGra:['All','AverageAge','AgeGap'],
-            NowGra:'All',
+            changeGra:['Old','New'],
+            nowGra:'Old',
             PresentTree:[],
             showTreeState:0,
+            checkIf:{
+                'ageGap':false,
+                'averageAge':false,
+                'positionNum':false,
+                'timeSpan':false,
+                'villageNum':false,
+                'structure':true,
+            },
+            viewBox_model:'Close',
         }
     },
     computed:{
-            ...mapGetters(["getLocation",'getChoosedTrees','getClusters','getCluster','getTree','getTrees','getSelectedModelTree','getTree2']),
+            ...mapGetters(["getLocation",'getChoosedTrees','getClusters','getCluster','getTree','getTrees','getSelectedModelTree','getTree2','getNowGra']),
             getClustersX:function(){
                 return function(nodes){
                     let allX=0;
@@ -129,12 +160,12 @@ export default {
             },
             getFill:function(){
                 return function(cluster){
-                    
-                    if(cluster>=12||cluster<0||this.state=='Origin'){
+                    const color=['antiquewhite','aqua','aquamarine','azure','beige','bisque',' blanchedalmond','blue','brown','burlywood','cadetblue','chartreuse','cyan','darkblue','darkcyan','firebrick','floralwhite','forestgreen','orange','red','']
+                    if(cluster>=30||cluster<0||this.state=='Origin'){
                         return '#fff';
                     }
                     else{
-                        return d3Color.schemePaired[cluster];
+                        return color[cluster];
                     }
                 }
             },
@@ -172,7 +203,7 @@ export default {
         },
     methods:{
         ...mapActions(["fetchLocation","updateChoosedTrees","updateCluster","updateRepresentTree",
-        "updateDifferentyTrees","updateDifferentTypes","updateChooseTypeIndex","setTrees","fetchPig",'updateSelectedModelTree','fetchTree','updateLocation','fetchSelectedTree1','updateTree2']),
+        "updateDifferentyTrees","updateDifferentTypes","updateChooseTypeIndex","setTrees","fetchPig",'updateSelectedModelTree','fetchTree','updateLocation','fetchSelectedTree1','updateTree2','updateHistroyTree']),
         initPath(){
             this.pathData="";
             this.pathData2='';
@@ -283,17 +314,32 @@ export default {
             // 放大缩小
             var svg = d3.select("#svg_pro");
             svg.call(
-                d3.zoom().scaleExtent([1, 3.0]).on("zoom", zoom)
+                d3.zoom().scaleExtent([0.8, 3.0]).on("zoom", zoom)
             );
  
             function zoom() {
                 d3.select(this).selectAll("g").attr("transform", d3.event.transform);
-            }
+            };
+        },
+        getNumberInNormalDistribution(mean,std_dev){
+            return mean+(this.randomNormalDistribution()*std_dev);
+        },
+        randomNormalDistribution(){
+            var u=0.0, v=0.0, w=0.0, c=0.0;
+            do{
+                //获得两个（-1,1）的独立随机变量
+                u=Math.random()*2-1.0;
+                v=Math.random()*2-1.0;
+                w=u*u+v*v;
+            }while(w==0.0||w>=1.0)
+            //这里就是 Box-Muller转换
+            c=Math.sqrt((-2*Math.log(w))/w);
+            //返回2个标准正态分布的随机数，封装进一个数组返回
+            //当然，因为这个函数运行较快，也可以扔掉一个
+            //return [u*c,v*c];
+            return u*c;
         },
         displayTree(value){
-            let e = event || window.event;
-            let x = e.offsetX;
-            let y = e.offsetY;
             //找到主树的x和y坐标
             let distance=[];
             let mainX=0;
@@ -338,12 +384,31 @@ export default {
 
             d3.select('#svg_pro')
             .selectAll(".circle")
-            .style("opacity","0.5")
-            .style("stroke","black")
+            .style("opacity","1")
+            .style("fill","gray")
+
             for(var i in selectedTree1){
                 d3.select("#circle_"+selectedTree1[i].name)
-                .style("stroke","red")
-            }
+                .style("fill","red")
+            };
+            
+            d3.select('#svg_pro').select('#sym').remove();
+            d3.select('#svg_pro').append('g')
+                                 .attr('id',"sym")
+                                 .attr('transform',"translate("+this.locationDic[value.id].x+","+this.locationDic[value.id].y+")")
+                                 .append('path')
+                                 .attr('d',d3.symbol().type(d3.symbolStar).size(50))
+                                 .attr('fill','steelblue');
+            // for(let i =0;i<this.location.length;i++){
+            //     let ll = 20 + Math.random()*10;
+            //     let r =  Math.abs(this.getNumberInNormalDistribution(0,ll));
+            //     let jiao = Math.random()*2*Math.PI
+            //     let X_random = r*Math.cos(jiao)
+            //     d3.select('#circle_'+this.location[i].id).attr("cx",this.location[i].x+X_random+'px')
+            //     let temp = Math.sqrt(r*r-X_random*X_random)
+            //     let Y_ranom = r * Math.sin(jiao);
+            //     d3.select('#circle_'+this.location[i].id).attr("cy",this.location[i].y+ Y_ranom+'px');
+            // }
             
         },
         getRepresentTree(){
@@ -364,12 +429,63 @@ export default {
             this.showTreeState=this.showTreeState==0?1:0;
             console.log(this.PresentTree);
             
+        },
+        changeVieBox(){
+            if(this.viewBox_model=="Close"){
+                this.$refs.viewBoxContent.style.opacity='0';
+                this.$refs.viewBox.style.left="140px";
+                // this.$refs.viewBox.style.top="0px";
+                this.viewBox_model="Open";
+            }else{
+                this.$refs.viewBoxContent.style.opacity='1';
+                 this.$refs.viewBox.style.left="0px";
+                // this.$refs.viewBox.style.top="0px";
+                this.viewBox_model="Close";
+            }
+        },
+        dragFunc(id) {
+                var Drag = document.getElementById(id);
+                Drag.onmousedown = function(event) {
+                    var ev = event || window.event;
+                    event.stopPropagation();
+                    var disX = ev.clientX - Drag.offsetLeft;
+                    var disY = ev.clientY - Drag.offsetTop;
+                    document.onmousemove = function(event) {
+                        Drag.style.transition = 'all 0s';
+                        var ev = event || window.event;
+                        Drag.style.left = ev.clientX - disX + "px";
+                        Drag.style.top = ev.clientY - disY + "px";
+                        Drag.style.cursor = "move";
+                    };
+                };
+                Drag.onmouseup = function() {
+                    document.onmousemove = null;
+                    Drag.style.transition = 'all 500ms';
+                    this.style.cursor = "default";
+                };
+        },
+        checkif(){
+            //如果展示的视图为old，那么则会使viewBox生效，否则将不生效
+            if(this.nowGra=="Old"){
+                let fileName= this.checkIf.structure==true?"location":"ATTR" ;
+                for(let i in this.checkIf){
+                    if(this.checkIf[i]==true&&i!='structure'){
+                        fileName+=i;
+                    }
+                }
+                if(fileName=="location"){
+                    fileName="All"
+                }
+                console.log(fileName);
+                this.updateLocation(fileName);
+            }
         }
-    },
 
+    },
     mounted(){
         this.getRAndD();
         // this.getpigg();
+        this.dragFunc('viewBox')
     },
     watch:{
         getLocation:function(){
@@ -411,6 +527,18 @@ export default {
             this.tree=[];
             this.tree.push({"id":id,"x":this.locationDic[id].x,
                 "y":this.locationDic[id].y,"cluster":this.locationDic[id].cluster});
+            let temp = {id:id};
+
+            d3.select('#svg_pro').select('#sym').remove();
+            d3.select('#svg_pro').append('g')
+                                 .attr('id',"sym")
+                                 .attr('transform',"translate("+this.locationDic[id].x+","+this.locationDic[id].y+")")
+                                 .append('path')
+                                 .attr('d',d3.symbol().type(d3.symbolStar).size(50))
+                                 .attr('fill','steelblue');
+
+            this.displayTree(temp);
+            this.updateHistroyTree(id);
         },
         getTree2(){
             // d3.select('#svg_pro')
@@ -419,9 +547,19 @@ export default {
 
             //  d3.select('#circle_' + this.getTree2.name).style("fill",'red');
         },
-        NowGra:function(){
-            this.updateLocation(this.NowGra);
-        }
+        // NowGra:function(){
+        //     this.updateLocation(this.NowGra);
+        // }
+        getNowGra(){
+            this.nowGra = this.getNowGra;
+        },
+        nowGra(){
+            console.log('change');
+            if(this.nowGra=='New'){
+                this.displayTree({"id":0})
+                console.log("888888888888888888")
+            }
+        },
 
     }
     
@@ -438,5 +576,32 @@ export default {
 #svg_pro{
     width:100%;
     height:100%;
+}
+.viewBox{
+    position: absolute;
+    width:160px;
+    height:270px;
+    transform: translate(782px,200px);
+    transition: all 500ms;
+    display: flex;
+    user-select:none;
+}
+.viewBox .content{
+    width:140px;
+    height:270px;
+    background:white;
+    border: 1px solid black;
+    transition: all 500ms;
+}
+.viewBox .button{
+    width:20px;
+    height: 60px;
+    background-color:rgb(128, 128, 128);
+    align-self: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: white;
+    writing-mode: vertical-lr;
+    text-align: center;
 }
 </style>

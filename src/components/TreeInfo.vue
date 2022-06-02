@@ -28,7 +28,6 @@ export default {
     },
     methods:{
         render(){
-
             let set=[]
             let start=0;
             var tree=this.getTree;

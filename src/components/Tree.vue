@@ -61,8 +61,8 @@ export default {
             var compute = d3.interpolate(b,a);
 
             var width=this.$refs.svgTree.clientWidth-this.padding.left-50;
-            var height=this.$refs.svgTree.clientHeight-this.padding.top-30;
-            var YearScale=d3.scaleLinear().domain([1700,1900]).range([this.padding.left,width]);
+            var height=this.$refs.svgTree.clientHeight-this.padding.top-25;
+            var YearScale=d3.scaleLinear().domain([1700,1950]).range([this.padding.left,width]);
             this.YearScale=YearScale;
             var xAxis=d3.axisTop().scale(YearScale);
 

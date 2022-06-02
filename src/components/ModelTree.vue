@@ -1,6 +1,6 @@
 <template>
     <div class="mBox">
-        <svg :id="'svg_model'+indexx" ref="svgModelTree" :style="{width:'80%',height:'90%'}">
+        <svg :id="'svg_model'+indexx" ref="svgModelTree" :style="{width:'100%',height:'100%'}">
         </svg>
     </div>
 </template>
@@ -36,7 +36,7 @@ export default {
             var svg=d3.select("#svg_model"+this.indexx);
             svg.selectAll("g").remove();
             svg.selectAll('path').remove();
-            var g=svg.append("g").attr("transform", `translate(${this.padding.left},${this.padding.top})`);
+            var g=svg.append("g").attr("transform", `translate(${this.padding.left},${this.padding.top})`).attr('width','120px').attr('height','120px');
             const links=g.append("g")
             .selectAll("path")
             .data(tree.links())

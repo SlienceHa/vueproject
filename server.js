@@ -35,6 +35,28 @@ server.use('/api/treeEdit',treeEditRouter);
 server.use('/api/cluster',clusterRouter);
 
 
+
+server.post('/api/attr',(req,res)=>{
+    let tree=req.body.data;
+    exec('python ./reTree.py '+ tree,function(error,stdout,stderr){
+        if(stdout.length >1){
+            console.log(stdout)
+            console.log("ok1!!!!!!!!!!!!!!!!!!!!!!!!!")
+            res.send({"data":true})
+        }
+        else if(error){
+            res.send({"data":false})
+            console.log(error);
+        }
+        else {
+            console.log('you don\'t offer args1');
+            res.send({"data":false})
+        }
+        
+    });
+
+})
+
 server.post('/api/search',(req,res)=>{
     let tree=req.body.data;
     let method=req.body.way;
@@ -42,6 +64,7 @@ server.post('/api/search',(req,res)=>{
     let name=req.body.name;
     exec('python ./pythonCode/getModelTreeEdges.py '+ tree +' '+method+' '+exit+' '+name,function(error,stdout,stderr){
         if(stdout.length >1){
+            console.log(stdout)
             console.log("ok1!")
             res.send({"data":true})
         }

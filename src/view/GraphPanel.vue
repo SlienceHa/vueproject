@@ -3,6 +3,9 @@
         <div class="box1">
             <div class="boxContent">
                 <Title :title="'Tree View'">
+                 <select style="position:absolute;left:1355px;margin:2px"  v-model="historyTree">
+                    <option v-for="item in getHistoryTree" :key="item" :value="item">{{item}}</option>
+                </select>
                     <!-- <el-button :style="{'float':'right','line-height':'0.05'}" @click="showDetail">ShowDetail</el-button> -->
                 </title>
                 <div class="content" :style="{'height':'calc(100% - '+height+'px)'}" >
@@ -99,7 +102,7 @@ export default {
     },
     computed:{
         ...mapGetters(['getChoosedTrees','getChoosedTreesByTreeEite','getClusters','getTrees','getRepresentTree',
-        'getDifferentyTrees','getDifferentTypes','getTree','getTree2','getSelectedTree','getSelectedTree1','getChangeState']),
+        'getDifferentyTrees','getDifferentTypes','getTree','getTree2','getSelectedTree','getSelectedTree1','getChangeState','getHistoryTree']),
         getOverTree:function(){
             return function (treeId){
                 let tree={};
@@ -121,10 +124,11 @@ export default {
             state_start:0,
             state_show:1,
             modelTree:[],
+            historyTree:'none',
         }
     },
     methods:{
-        ...mapActions(['updateTree2','fetchSelectedTree1','updateChangeState']),
+        ...mapActions(['updateTree2','fetchSelectedTree1','updateChangeState','setHistoryTree','fetchTree']),
         nextClick(){
             this.$refs.Compare.nextOne();
         },
@@ -142,7 +146,7 @@ export default {
             this.updateTree2(value.name);
             this.modelTree.forEach(ele=>{
                 if(ele.name==value.name){
-                    this.$set(ele,"state",1);
+                    this.$set(ele,"state",5);
                 }else{
                     this.$set(ele,"state",0);
                 }
@@ -154,6 +158,9 @@ export default {
     watch:{
         getSelectedTree1:function(){
             this.modelTree=this.getSelectedTree1;
+        },
+        historyTree:function(){
+            this.fetchTree(this.historyTree);
         }
     }
 

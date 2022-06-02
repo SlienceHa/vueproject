@@ -41,7 +41,7 @@ export default {
         ...mapGetters(['getTrees'])
     },
     methods:{
-        ...mapActions(["updateChoosedTrees","updateChoosedTreesByTreeEite"]),
+        ...mapActions(["updateChoosedTrees","updateChoosedTreesByTreeEite","updateTree2","fetchSelectedTree1"]),
         drawNode(e){
             let x=e.layerX;
             let y=e.layerY;
@@ -116,6 +116,7 @@ export default {
             })
             .then(function (response) {
                 if(response.data.data==true){
+                    console.log(response.data.data)
                     console.log("ok1")
                      this.$axios.post('http://localhost:5000/api/graph2vec/graph2vec')
                      .then(function (response) {
@@ -131,12 +132,23 @@ export default {
         pipei(){
             this.$axios.post('http://localhost:5000/api/graph2vec/pipei',{"count":50})
             .then(function (response) {
-                console.log(response.data.data);
                 let choosedTrees=response.data.data.map(value => {
                     return value.name;
                 });
-                console.log(choosedTrees);
                 this.updateChoosedTrees(choosedTrees);
+                this.updateTree2(choosedTrees[0]);
+                //将前五十个树更新；
+                let selectedTree1=[];  
+                choosedTrees.forEach(ele=>{
+                    this.getTrees.forEach(eles=>{
+                        if(ele == eles.name){
+                            let temp =eles;
+                            temp.state=0
+                            selectedTree1.push(temp);
+                        }      
+                    })
+                });
+                this.fetchSelectedTree1(selectedTree1);
             }.bind(this))
         },
 
